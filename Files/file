@@ -1,0 +1,25 @@
+package com.company;
+import java.util.Scanner;
+import  java.io.File;
+import java.io.FileNotFoundException;
+
+class Main {
+    public static void main(String[] args) {
+        int countOfEven = 0;
+        try{
+            Scanner scanner = new Scanner(new File("C:\\Users\\itolo\\IdeaProjects\\HelloWorld\\dataset_91065.txt"));
+            while(scanner.hasNext()){
+                int each = scanner.nextInt();
+                if (each == 0){
+                    break;
+                }
+                if (each % 2 == 0){
+                    countOfEven++;
+                }
+            }
+        }catch(FileNotFoundException e){
+            System.out.println(e);
+        }
+        System.out.println(countOfEven);
+    }
+}
