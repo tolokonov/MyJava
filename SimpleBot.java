@@ -1,3 +1,8 @@
+/**
+ * @author Ilya Tolokonov
+ * @version 1.0
+ */
+
 package bot;
 
 import java.util.Scanner;
