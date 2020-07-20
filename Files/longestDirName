@@ -1,0 +1,36 @@
+import java.io.*;
+import java.util.*;
+import java.util.function.Consumer;
+import java.nio.file.*;
+
+public class TreeFiles {
+    static String dirName = "";
+    static int deepFile = 0;
+    static int permDeep = 0;
+
+
+    public static void main(String[] args){
+        File file = new File("C:\\Users\\itolo\\Downloads\\basedir_2");
+        System.out.println(getFiles(file));
+    }
+
+    public static String getFiles(File files) {
+        for (File file : files.listFiles()) {
+            if (file.isDirectory()) {
+                permDeep++;
+                getFiles(file);
+                if (permDeep > deepFile) {
+                    deepFile = permDeep;
+                    dirName = file.getName();
+                }
+                permDeep--;
+            } else {
+                if (permDeep > deepFile) {
+                    deepFile = permDeep;
+                    dirName = file.getName();
+                }
+            }
+        }
+        return dirName;
+    }
+}
