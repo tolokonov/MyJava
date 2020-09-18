@@ -1,0 +1,67 @@
+package io.github.studio22;
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        boolean flag = true;
+
+        int sizeOfMatrix_1_rows=0, sizeOfMatrix_1_columns=0, sizeOfMatrix_2_rows=0, sizeOfMatrix_2_columns=0;
+
+        while (flag) {
+            System.out.println("Введите размеры первой и второй матриц");
+
+            sizeOfMatrix_1_rows = scanner.nextInt();
+            sizeOfMatrix_1_columns = scanner.nextInt();
+            sizeOfMatrix_2_rows = scanner.nextInt();
+            sizeOfMatrix_2_columns = scanner.nextInt();
+
+            if ((sizeOfMatrix_1_rows > 10) || (sizeOfMatrix_1_columns > 10) || (sizeOfMatrix_2_rows>10) || (sizeOfMatrix_2_columns>10)){
+                System.out.println("Размер строк и столбцов не должен превышать 10");
+                continue;
+            }
+
+            if (sizeOfMatrix_1_columns != sizeOfMatrix_2_rows) {
+                System.out.println("Невозможно вычислить произведение матриц, потому что кол-во столбцов 1-ой матрице не равно кол-ву строк 2-ой");
+                continue;
+            } else {
+                break;
+            }
+        }
+
+        int[][] matrix_1 = new int [sizeOfMatrix_1_rows][sizeOfMatrix_1_columns];
+        int[][] matrix_2 = new int [sizeOfMatrix_2_rows][sizeOfMatrix_2_columns];
+        int[][] matrix_result = new int [sizeOfMatrix_1_rows][sizeOfMatrix_2_columns];
+
+        System.out.println("Введите значения первой матрицы");
+
+        for (int i=0; i<sizeOfMatrix_1_rows; i++){
+            for(int j=0; j<sizeOfMatrix_1_columns; j++) {
+                matrix_1[i][j] = scanner.nextInt();
+            }
+        }
+
+        System.out.println("Введите значения второй матрицы");
+
+        for (int i=0; i<sizeOfMatrix_2_rows; i++){
+            for(int j=0; j<sizeOfMatrix_2_columns; j++) {
+                matrix_2[i][j] = scanner.nextInt();
+            }
+        }
+
+        //перемножение
+
+        for (int i = 0; i < sizeOfMatrix_1_rows; i++) {
+            for (int j = 0; j < sizeOfMatrix_2_columns; j++) {
+                for (int k = 0; k < sizeOfMatrix_1_columns; k++) {
+                    matrix_result[i][j] += matrix_1[i][k] * matrix_2[k][j];
+                }
+                System.out.print(matrix_result[i][j]);
+                System.out.print(' ');
+            }
+            System.out.println();
+        }
+    }
+}
