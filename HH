@@ -1,0 +1,87 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String first = scanner.next();
+        String second = scanner.next();
+        
+        if (first.equals(second)){
+            System.out.println(1);
+        } else {
+            char[] firstWord = first.toCharArray();
+            char[] secondWord = second.toCharArray();
+
+            System.out.println(check(firstWord, secondWord));   //проверка    
+        }
+    }
+
+    public static int check (char[] firstWord, char[] secondWord){
+        List<Character> alphabets = new ArrayList<Character>();
+
+        alphabets.add('а');
+        alphabets.add('б');
+        alphabets.add('в');
+        alphabets.add('г');
+        alphabets.add('д');
+        alphabets.add('е');
+        alphabets.add('ё');
+        alphabets.add('ж');
+        alphabets.add('з');
+        alphabets.add('и');
+        alphabets.add('й');
+        alphabets.add('к');
+        alphabets.add('л');
+        alphabets.add('м');
+        alphabets.add('н');
+        alphabets.add('о');
+        alphabets.add('п');
+        alphabets.add('р');
+        alphabets.add('с');
+        alphabets.add('т');
+        alphabets.add('у');
+        alphabets.add('ф');
+        alphabets.add('х');
+        alphabets.add('ц');
+        alphabets.add('ч');
+        alphabets.add('ш');
+        alphabets.add('щ');
+        alphabets.add('ъ');
+        alphabets.add('ы');
+        alphabets.add('ь');
+        alphabets.add('э');
+        alphabets.add('ю');
+        alphabets.add('я');
+
+        for (int i = 0; i < firstWord.length; i++) {
+
+            char temp = firstWord[i];
+
+            if (alphabets.contains(temp)) {
+                alphabets.remove(alphabets.indexOf(temp));
+            }
+        }
+
+        if (alphabets.isEmpty()){
+            return 0;
+        }
+
+        if (firstWord.length != secondWord.length){          //если длина первой последовательности
+            return 0;                                       //не равна длине 2-ой, то преобразование невозможно
+        } else {                                            //иначе
+            for (int i=0; i<firstWord.length; i++){         //для каждого символа запоминаем пару
+                char tempInFirstWord = firstWord[i];
+                char tempInSecondWord = secondWord[i];
+
+                for (int j=i; j<firstWord.length; j++){
+                    if ((tempInFirstWord == firstWord[j] && tempInSecondWord != secondWord[j]) ||   //проверяем на совпадение пары в обоих подстроках
+                            (tempInFirstWord != firstWord[j] && tempInSecondWord == secondWord[j])) {
+                        return 0;
+                    }
+                }
+            }
+            return 1;
+        }
+    }
+}
