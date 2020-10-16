@@ -1,5 +1,7 @@
 package com.company;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -7,22 +9,24 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Random random = new Random();
-        Boolean flag = false;
         int count = 0; //счетчик порядка ходов для игроков
+        int temp = 0; //переменная для инициализации свободных полей
 
+        List<Integer> freeNumbers = new ArrayList<>();
 	    char[][] field = new char[10][10]; //генерация стартового поля
+        int[][][] system = new int[10][10][2]; //для хранения информации полей
 	    for (int i=0; i<10; i++){
             for (int j=0; j<10; j++) {
-                if (random.nextInt(100) > 80){ //генерация препятствий в качестве !
-                    field[i][j] = '!';
-                } else {
-                    field[i][j] = '*';
-                }
+                freeNumbers.add(temp);
+                temp++;
+                field[i][j] = '*';
+                system[i][j][0] = 0; // инфо о соседях
+                system[i][j][1] = 0; // инфо о монетах
             }
         }
 
-	    while (flag == false){
+	    while (true){
+
             for (int i=0; i<10; i++){ //вывод поля
                 for (int j=0; j<10; j++) {
                     System.out.print(field[i][j] + " ");
@@ -45,13 +49,95 @@ public class Main {
                 } else {
                     field[n][m] = 'o';
                 }
+                addNeighbour(system, n, m, field);
+                int index = freeNumbers.indexOf(n*10 + m);
+                freeNumbers.remove(index);
                 count++;
-                System.out.println();
+
+                Boolean flag = generateObstacle(field, freeNumbers);
+                if (flag == true){
+                    break;
+                }
             } else {
-                System.out.println("Внимание, там препятствие, повторите ход");
-                System.out.println();
-                continue;
+                System.out.println("Внимание, там препятствие, повторите свой ход");
             }
+            System.out.println();
+        }
+    }
+
+    //добавление соседа
+    public static void addNeighbour(int[][][] system, int n, int m, char[][] field){//теперь надо для 2
+        if (n!=0){
+            if (field[n][m] == field[n-1][m]){
+                system[n][m][0]--;//обновление состояния
+            } else {
+                system[n-1][m][0]++;//обновление первого соседа
+            }
+        }
+
+        if (m!=0){
+            if (field[n][m] == field[n][m-1]){
+                system[n][m][0]--;//обновление состояния
+            } else {
+                system[n][m-1][0]++;//обновление первого соседа
+            }
+        }
+
+        if (n!=9){
+            if (field[n][m] == field[n+1][m]){
+                system[n][m][0]--;//обновление состояния
+            } else {
+                system[n+1][m][0]++;//обновление первого соседа
+            }
+        }
+        if (m!=9){
+            if (field[n][m] == field[n][m+1]){
+                system[n][m][0]--;//обновление состояния
+            } else {
+                system[n][m+1][0]++;//обновление первого соседа
+            }
+        }
+
+        for(int i=0; i<10; i++){
+            for(int j=0; j<10; j++){
+                if(system[i][j][0]==4){
+                    if(field[i][j]=='x'){
+                        field[i][j]='o';
+                    } else {
+                        field[i][j]='x';
+                    }
+                }
+            }
+        }
+        return;
+    }
+
+    //генерация препятствий
+    public static Boolean generateObstacle(char[][] field, List<Integer> freeNumbers){
+        if (freeNumbers.size() == 0){
+            return true;
+        }
+
+        Random random = new Random();
+        int amount = 4;
+        while(amount > freeNumbers.size() && amount != 1){
+            amount--;
+        }
+        int count = random.nextInt(amount);
+
+        while (count > 0){
+            int newObstacle = random.nextInt(freeNumbers.size());
+            int n = freeNumbers.get(newObstacle)/10;
+            int m = freeNumbers.get(newObstacle)%10;
+            freeNumbers.remove(newObstacle);
+            field[n][m] = '!';
+            count--;
+        }
+
+        if (freeNumbers.size() == 0){
+            return true;
+        } else {
+            return false;
         }
     }
 }
