@@ -43,7 +43,9 @@ public class Main {
             int m = scanner.nextInt() - 1;
 
             if (field[n][m] != '!'){
-                if(field[n][m] != 'x' || field[n][m] != 'o') {
+                if(field[n][m] == 'x' || field[n][m] == 'o') {
+                    System.out.println("Внимание, поле уже занято, повторите свой ход");
+                } else {
                     if (count % 2 == 0) {
                         field[n][m] = 'x';
                     } else {
@@ -58,8 +60,6 @@ public class Main {
                     if (flag == true) {
                         break;
                     }
-                } else {
-                    System.out.println("Внимание, поле уже занято, повторите свой ход");
                 }
             } else {
                 System.out.println("Внимание, там препятствие, повторите свой ход");
