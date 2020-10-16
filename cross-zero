@@ -26,7 +26,6 @@ public class Main {
         }
 
 	    while (true){
-
             for (int i=0; i<10; i++){ //вывод поля
                 for (int j=0; j<10; j++) {
                     System.out.print(field[i][j] + " ");
@@ -44,19 +43,23 @@ public class Main {
             int m = scanner.nextInt() - 1;
 
             if (field[n][m] != '!'){
-                if (count % 2 == 0){
-                    field[n][m] = 'x';
-                } else {
-                    field[n][m] = 'o';
-                }
-                addNeighbour(system, n, m, field);
-                int index = freeNumbers.indexOf(n*10 + m);
-                freeNumbers.remove(index);
-                count++;
+                if(field[n][m] != 'x' || field[n][m] != 'o') {
+                    if (count % 2 == 0) {
+                        field[n][m] = 'x';
+                    } else {
+                        field[n][m] = 'o';
+                    }
+                    addNeighbour(system, n, m, field);
+                    int index = freeNumbers.indexOf(n * 10 + m);
+                    freeNumbers.remove(index);
+                    count++;
 
-                Boolean flag = generateObstacle(field, freeNumbers);
-                if (flag == true){
-                    break;
+                    Boolean flag = generateObstacle(field, freeNumbers);
+                    if (flag == true) {
+                        break;
+                    }
+                } else {
+                    System.out.println("Внимание, поле уже занято, повторите свой ход");
                 }
             } else {
                 System.out.println("Внимание, там препятствие, повторите свой ход");
@@ -73,6 +76,12 @@ public class Main {
             } else {
                 system[n-1][m][0]++;//обновление первого соседа
             }
+        } else {
+            if (field[n][m] == field[9][m]){
+                system[n][m][0]--;//обновление состояния
+            } else {
+                system[9][m][0]++;//обновление первого соседа
+            }
         }
 
         if (m!=0){
@@ -80,6 +89,12 @@ public class Main {
                 system[n][m][0]--;//обновление состояния
             } else {
                 system[n][m-1][0]++;//обновление первого соседа
+            }
+        } else {
+            if (field[n][m] == field[n][9]){
+                system[n][m][0]--;//обновление состояния
+            } else {
+                system[n][9][0]++;//обновление первого соседа
             }
         }
 
@@ -89,12 +104,25 @@ public class Main {
             } else {
                 system[n+1][m][0]++;//обновление первого соседа
             }
+        } else {
+            if (field[n][m] == field[0][m]){
+                system[n][m][0]--;//обновление состояния
+            } else {
+                system[0][m][0]++;//обновление первого соседа
+            }
         }
+
         if (m!=9){
             if (field[n][m] == field[n][m+1]){
                 system[n][m][0]--;//обновление состояния
             } else {
                 system[n][m+1][0]++;//обновление первого соседа
+            }
+        } else {
+            if (field[n][m] == field[n][0]){
+                system[n][m][0]--;//обновление состояния
+            } else {
+                system[n][0][0]++;//обновление первого соседа
             }
         }
 
